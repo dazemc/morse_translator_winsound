@@ -23,7 +23,7 @@ To use this script, follow the instructions below:
     ```
 3. Run the script.
     ```
-    python morse_code.py
+    python main.py
     ```
 
 ## Usage
