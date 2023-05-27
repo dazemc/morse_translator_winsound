@@ -1,5 +1,8 @@
-import winsound as ws
+import os
 import time
+
+if os.name == 'nt':
+    import winsound as ws
 
 BEEP_FREQUENCY = 6000
 DOT_DURATION = 400
@@ -7,6 +10,9 @@ DASH_DURATION = 1200
 LETTER_PAUSE = 1
 AFTER_LETTER_PAUSE = 3
 WORD_PAUSE = 7
+UNIX_DOT = 'speaker-test -t sine -f 1000 -l 1 & sleep .2 && kill -9 $!'
+UNIX_DASH = 'speaker-test -t sine -f 1000 -l 1 & sleep .6 && kill -9 $!'
+
 
 # This is the corresponding value for each letter into morse code.
 # (Dots will be *)(Dashes will be -)
@@ -88,10 +94,16 @@ for _ in user_input:
     for letters in convert_letters(_):
         for code in letters:
             if code == '*':
-                dot()
+                if os.name != 'posix':
+                    dot()
+                else:
+                    os.system(UNIX_DOT)
                 letter_pause()
             if code == '-':
-                dash()
+                if os.name != 'posix':
+                    dash()
+                else:
+                    os.system(UNIX_DASH)
                 letter_pause()
             if code == ' ':
                 word_pause()
